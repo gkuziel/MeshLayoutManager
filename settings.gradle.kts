@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Digiteq-Assignment"
 include(":app")
- 
+include(":assignment")
