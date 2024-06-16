@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gkuziel.digiteq_assignment.uiUtils.LayoutManagerType
 import com.gkuziel.digiteq_assignment.uiUtils.SnapHelperType
-import com.gkuziel.digiteq_assignment.uiUtils.ViewState
+import com.gkuziel.digiteq_assignment.uiUtils.MainViewState
 
 class MainViewModel internal constructor(
 
 ) : ViewModel() {
 
-    private val initialViewState = ViewState(
+    private val initialViewState = MainViewState(
         true,
         LayoutManagerType.Linear(),
         SnapHelperType.None(),
@@ -20,7 +20,7 @@ class MainViewModel internal constructor(
 
     private val _state = MutableLiveData(initialViewState)
 
-    val state: LiveData<ViewState>
+    val state: LiveData<MainViewState>
         get() = _state
 
     fun onReverseLayoutClicked(isReversed: Boolean) {
