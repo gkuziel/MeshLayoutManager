@@ -93,14 +93,14 @@ class MainActivity : AppCompatActivity() {
                     LinearLayoutManager(
                         this@MainActivity,
                         RecyclerView.HORIZONTAL,
-                        false
+                        viewState.reversed
                     )
 
                 is LayoutManagerType.Linear ->
                     LinearLayoutManager(
                         this@MainActivity,
                         RecyclerView.HORIZONTAL,
-                        false
+                        viewState.reversed
                     )
 
                 is LayoutManagerType.Grid ->
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                         this@MainActivity,
                         2,
                         RecyclerView.HORIZONTAL,
-                        false
+                        viewState.reversed
                     )
 
             }
