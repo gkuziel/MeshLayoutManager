@@ -66,6 +66,10 @@ class MainActivity : AppCompatActivity() {
             btnSmoothScrollToPosition.setOnClickListener {
                 recyclerviewTop.smoothScrollToPosition(etScrollPosition.text.toString().toInt())
             }
+
+            btnAnimateItems.setOnClickListener {
+                recyclerviewTop.startLayoutAnimation()
+            }
         }
     }
 

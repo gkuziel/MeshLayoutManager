@@ -165,6 +165,17 @@
         app:layout_constraintStart_toEndOf="@id/btn_smooth_scroll_to_position"
         app:layout_constraintTop_toTopOf="@+id/btn_smooth_scroll_to_start" />
 
+    <Button
+        android:id="@+id/btn_animate_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="animate!"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_smooth_scroll_to_start" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -173,7 +184,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_smooth_scroll_to_start">
+        app:layout_constraintTop_toBottomOf="@id/btn_animate_items">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -181,6 +192,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="4dp"
+            android:layoutAnimation="@anim/item_layout_animation"
             app:layout_constraintBottom_toTopOf="@id/recyclerview_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -193,6 +205,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="4dp"
+            android:layoutAnimation="@anim/item_layout_animation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
