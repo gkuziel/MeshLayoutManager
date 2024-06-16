@@ -12,7 +12,7 @@ class MainViewModel internal constructor(
 ) : ViewModel() {
 
     private val initialViewState = MainViewState(
-        true,
+        false,
         LayoutManagerType.Linear(),
         SnapHelperType.None(),
         0

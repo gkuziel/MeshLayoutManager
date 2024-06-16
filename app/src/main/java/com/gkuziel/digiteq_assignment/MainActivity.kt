@@ -6,18 +6,24 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.gkuziel.digiteq_assignment.adapter.MyAdapter
 import com.gkuziel.digiteq_assignment.data.Data
 import com.gkuziel.digiteq_assignment.databinding.ActivityMainBinding
 import com.gkuziel.digiteq_assignment.uiUtils.LayoutManagerType
 import com.gkuziel.digiteq_assignment.uiUtils.MainViewState
+import com.gkuziel.digiteq_assignment.uiUtils.SnapHelperType
 
 
 class MainActivity : AppCompatActivity() {
 
     private val myAdapterTop by lazy { MyAdapter(Data.numbers) }
-//    private val myAdapterBottom by lazy { MyAdapter(Data.numbers) }
+
+    //    private val myAdapterBottom by lazy { MyAdapter(Data.numbers) }
+    private val linearSnapHelper by lazy { LinearSnapHelper() }
+    private val pagerSnapHelper by lazy { PagerSnapHelper() }
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
@@ -72,10 +78,11 @@ class MainActivity : AppCompatActivity() {
             (radioGroupSnapHelper.getChildAt(viewState.snapHelperType.id) as RadioButton).isChecked =
                 true
         }
-        setupRecyclers(viewState)
+        setLayoutManager(viewState)
+        setSnapHelpers(viewState)
     }
 
-    private fun setupRecyclers(viewState: MainViewState) {
+    private fun setLayoutManager(viewState: MainViewState) {
         with(binding) {
             recyclerviewTop.layoutManager = when (viewState.layoutManagerType) {
                 is LayoutManagerType.Mesh ->
@@ -102,5 +109,30 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun setSnapHelpers(viewState: MainViewState) {
+        with(binding) {
+            detachSnapHelpers()
+            when (viewState.snapHelperType) {
+                is SnapHelperType.Custom ->
+                    linearSnapHelper.attachToRecyclerView(recyclerviewTop)
+
+                is SnapHelperType.Linear ->
+                    linearSnapHelper.attachToRecyclerView(recyclerviewTop)
+
+                is SnapHelperType.Pager ->
+                    pagerSnapHelper.attachToRecyclerView(recyclerviewTop)
+
+                is SnapHelperType.None -> {}
+
+            }
+        }
+    }
+
+    private fun detachSnapHelpers() {
+        linearSnapHelper.attachToRecyclerView(null)
+        pagerSnapHelper.attachToRecyclerView(null)
+//        customSnapHelper.attachToRecyclerView(null)
     }
 }

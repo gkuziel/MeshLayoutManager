@@ -5,7 +5,7 @@ sealed class SnapHelperType(val id: Int) {
     class Custom : SnapHelperType(1)
     class Linear : SnapHelperType(2)
     class Pager : SnapHelperType(3)
-    class None : SnapHelperType(3)
+    class None : SnapHelperType(4)
 
     companion object {
         fun getHelper(id: Int): SnapHelperType {
