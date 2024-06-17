@@ -33,11 +33,11 @@ class MeshLayoutManager(
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State
     ): Int {
-        val minPosition = 0
-        val maxPosition = (pageCount - 1) * width
-        horizontalScrollOffset = min(maxPosition, max(minPosition, dx + horizontalScrollOffset))
+        val minScroll = 0
+        val maxScroll = (pageCount - 1) * width
+        horizontalScrollOffset = min(maxScroll, max(minScroll, dx + horizontalScrollOffset))
         fill(recycler)
-        return if (isScrolledToEdge(maxPosition)) {
+        return if (isScrolledToEdge(maxScroll)) {
             0
         } else {
             dx
@@ -59,7 +59,10 @@ class MeshLayoutManager(
     ) {
         detachAndScrapAttachedViews(recycler)
 
-        for (i in 0 until itemCount) {
+        val firstVisiblePosition = firstVisiblePosition()
+        val lastVisiblePosition = lastVisiblePosition(firstVisiblePosition)
+
+        for (i in firstVisiblePosition..lastVisiblePosition) {
             val view = recycler.getViewForPosition(i)
             addView(view)
             measureChildWithMargins(view, 0, 0)
@@ -80,6 +83,16 @@ class MeshLayoutManager(
             recycler.recycleView(it.itemView)
         }
     }
+
+    private fun firstVisiblePosition(): Int {
+        val firstVisiblePage = horizontalScrollOffset / width
+        val firstVisiblePositionInPage = horizontalScrollOffset % width / itemWidth
+        return firstVisiblePage * pageSize + firstVisiblePositionInPage
+    }
+
+    private fun lastVisiblePosition(firstVisiblePosition: Int) =
+        min(firstVisiblePosition + pageSize + columnCount, itemCount - 1)
+
 
     private fun calculateLeftCoordinate(
         index: Int,
