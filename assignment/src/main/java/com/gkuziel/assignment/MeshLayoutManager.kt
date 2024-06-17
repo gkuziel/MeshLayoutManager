@@ -2,12 +2,21 @@ package com.gkuziel.assignment
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
+import kotlin.math.ceil
+import kotlin.math.max
+import kotlin.math.min
 
 class MeshLayoutManager(
     private val columnCount: Int,
     private val rowCount: Int,
     private val reversed: Boolean,
 ) : RecyclerView.LayoutManager() {
+
+    private var horizontalScrollOffset = 0
+    private val pageCount by lazy { ceil(itemCount.toDouble() / (columnCount * rowCount)).toInt() }
+    private val pageSize by lazy { columnCount * rowCount }
+    private val itemWidth by lazy { width / columnCount }
+    private val itemHeight by lazy { height / rowCount }
 
 
     override fun generateDefaultLayoutParams() = RecyclerView.LayoutParams(
@@ -16,7 +25,27 @@ class MeshLayoutManager(
     )
 
     override fun canScrollVertically() = false
+
     override fun canScrollHorizontally() = true
+
+    override fun scrollHorizontallyBy(
+        dx: Int,
+        recycler: RecyclerView.Recycler,
+        state: RecyclerView.State
+    ): Int {
+        val minPosition = 0
+        val maxPosition = (pageCount - 1) * width
+        horizontalScrollOffset = min(maxPosition, max(minPosition, dx + horizontalScrollOffset))
+        fill(recycler)
+        return if (isScrolledToEdge(maxPosition)) {
+            0
+        } else {
+            dx
+        }
+    }
+
+    private fun isScrolledToEdge(maxPosition: Int) =
+        horizontalScrollOffset == 0 || horizontalScrollOffset == maxPosition
 
     override fun onLayoutChildren(
         recycler: RecyclerView.Recycler,
@@ -29,10 +58,6 @@ class MeshLayoutManager(
         recycler: Recycler,
     ) {
         detachAndScrapAttachedViews(recycler)
-
-        val pageSize = columnCount * rowCount
-        val itemWidth = width / columnCount
-        val itemHeight = height / rowCount
 
         for (i in 0 until itemCount) {
             val view = recycler.getViewForPosition(i)
@@ -60,7 +85,8 @@ class MeshLayoutManager(
         index: Int,
         pageSize: Int,
         itemWidth: Int
-    ) = ((index / pageSize) * columnCount + (index % columnCount)) * itemWidth
+    ) =
+        ((index / pageSize) * columnCount + (index % columnCount)) * itemWidth - horizontalScrollOffset
 
     private fun calculateTopCoordinate(
         index: Int,
