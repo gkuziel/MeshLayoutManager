@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.gkuziel.assignment.MeshLayoutManager
 import com.gkuziel.digiteq_assignment.adapter.ItemAdapter
 import com.gkuziel.digiteq_assignment.databinding.ActivityMainBinding
 import com.gkuziel.digiteq_assignment.ui.LayoutManagerType
@@ -92,9 +93,9 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             recyclerviewTop.layoutManager = when (viewState.layoutManagerType) {
                 is LayoutManagerType.Mesh ->
-                    LinearLayoutManager(
-                        this@MainActivity,
-                        RecyclerView.HORIZONTAL,
+                    MeshLayoutManager(
+                        5,
+                        2,
                         viewState.reversed
                     )
 
