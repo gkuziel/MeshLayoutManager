@@ -99,7 +99,7 @@ class MeshLayoutManager(
     }
 
     private fun lastVisiblePosition(firstVisiblePosition: Int) =
-        min(firstVisiblePosition + pageSize + columnCount, itemCount - 1)
+        min(firstVisiblePosition + pageSize + (rowCount - 1) * columnCount, itemCount - 1)
 
 
     private fun calculateLeftCoordinate(
