@@ -10,8 +10,8 @@ sealed class LayoutManagerType(val id: Int) {
         fun getManager(id: Int): LayoutManagerType {
             return when (id) {
                 1 -> Mesh()
-                2 -> Linear()
-                3 -> Grid()
+                3 -> Linear()
+                4 -> Grid()
                 else -> {
                     throw Exception("invalid id")
                 }
