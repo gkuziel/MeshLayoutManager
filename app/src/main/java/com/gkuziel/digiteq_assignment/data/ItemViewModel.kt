@@ -1,5 +1,6 @@
 package com.gkuziel.digiteq_assignment.data
 
 data class ItemViewModel(
-    val value: Int
+    val value: Int,
+    val color: Int
 )

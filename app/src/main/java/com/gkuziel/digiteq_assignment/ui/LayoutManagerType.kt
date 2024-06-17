@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment.uiUtils
+package com.gkuziel.digiteq_assignment.ui
 
 
 sealed class LayoutManagerType(val id: Int) {
