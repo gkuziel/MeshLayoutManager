@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.gkuziel.assignment.MeshLayoutManager
 import com.gkuziel.digiteq_assignment.adapter.ItemAdapter
 import com.gkuziel.digiteq_assignment.databinding.ActivityMainBinding
 import com.gkuziel.digiteq_assignment.ui.LayoutManagerType
@@ -66,11 +67,19 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             btnSmoothScrollToPosition.setOnClickListener {
-                recyclerviewTop.smoothScrollToPosition(etScrollPosition.text.toString().toInt())
+                recyclerviewTop.smoothScrollToPosition(
+                    etScrollPosition.text.toString().toIntOrNull() ?: 0
+                )
             }
 
             btnAnimateItems.setOnClickListener {
                 recyclerviewTop.startLayoutAnimation()
+            }
+            btnSetMeshDimension.setOnClickListener {
+                viewModel.onDimensionChanged(
+                    etMeshColumnNumbers.text.toString().toIntOrNull() ?: 5,
+                    etMeshRowNumbers.text.toString().toIntOrNull() ?: 2
+                )
             }
         }
     }
@@ -79,9 +88,9 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             etScrollPosition.setText(viewState.position.toString())
             switchReversed.isChecked = viewState.reversed
-            (radioGroupLayoutManager.getChildAt(viewState.layoutManagerType.id) as RadioButton).isChecked =
+            (radioGroupLayoutManager.getChildAt(viewState.layoutManagerType.id) as? RadioButton)?.isChecked =
                 true
-            (radioGroupSnapHelper.getChildAt(viewState.snapHelperType.id) as RadioButton).isChecked =
+            (radioGroupSnapHelper.getChildAt(viewState.snapHelperType.id) as? RadioButton)?.isChecked =
                 true
         }
         setLayoutManager(viewState)
@@ -92,9 +101,9 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             recyclerviewTop.layoutManager = when (viewState.layoutManagerType) {
                 is LayoutManagerType.Mesh ->
-                    LinearLayoutManager(
-                        this@MainActivity,
-                        RecyclerView.HORIZONTAL,
+                    MeshLayoutManager(
+                        viewState.columnCount,
+                        viewState.rowCount,
                         viewState.reversed
                     )
 
@@ -139,6 +148,5 @@ class MainActivity : AppCompatActivity() {
     private fun detachSnapHelpers() {
         linearSnapHelper.attachToRecyclerView(null)
         pagerSnapHelper.attachToRecyclerView(null)
-//        customSnapHelper.attachToRecyclerView(null)
     }
 }

@@ -15,9 +15,11 @@ class MainViewModel internal constructor(
 
     private val initialViewState = MainViewState(
         false,
-        LayoutManagerType.Linear(),
+        LayoutManagerType.Mesh(),
         SnapHelperType.None(),
-        0
+        0,
+        5,
+        2
     )
 
     private val _state = MutableLiveData(initialViewState)
@@ -50,6 +52,14 @@ class MainViewModel internal constructor(
         _state.apply {
             if (value?.snapHelperType?.id != index) {
                 value = value?.copy(snapHelperType = SnapHelperType.getHelper(index))
+            }
+        }
+    }
+
+    fun onDimensionChanged(columns: Int, rows: Int) {
+        _state.apply {
+            if (value?.columnCount != columns || value?.rowCount != rows) {
+                value = value?.copy(columnCount = columns, rowCount = rows)
             }
         }
     }
