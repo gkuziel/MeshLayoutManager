@@ -15,6 +15,9 @@ class MeshLayoutManager(
         RecyclerView.LayoutParams.WRAP_CONTENT
     )
 
+    override fun canScrollVertically() = false
+    override fun canScrollHorizontally() = true
+
     override fun onLayoutChildren(
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State
