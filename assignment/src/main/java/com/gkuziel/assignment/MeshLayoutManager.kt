@@ -18,7 +18,6 @@ class MeshLayoutManager(
     private val itemWidth by lazy { width / columnCount }
     private val itemHeight by lazy { height / rowCount }
 
-
     override fun generateDefaultLayoutParams() = RecyclerView.LayoutParams(
         RecyclerView.LayoutParams.WRAP_CONTENT,
         RecyclerView.LayoutParams.WRAP_CONTENT
@@ -85,9 +84,18 @@ class MeshLayoutManager(
     }
 
     private fun firstVisiblePosition(): Int {
-        val firstVisiblePage = horizontalScrollOffset / width
-        val firstVisiblePositionInPage = horizontalScrollOffset % width / itemWidth
-        return firstVisiblePage * pageSize + firstVisiblePositionInPage
+        return if (reversed) {
+            val reverseOffset = (pageCount - 1) * width
+            val firstVisiblePage = (reverseOffset - horizontalScrollOffset) / width
+            val firstVisiblePositionInPage =
+                (reverseOffset - horizontalScrollOffset) % width / itemWidth
+            firstVisiblePage * pageSize + firstVisiblePositionInPage
+
+        } else {
+            val firstVisiblePage = horizontalScrollOffset / width
+            val firstVisiblePositionInPage = horizontalScrollOffset % width / itemWidth
+            firstVisiblePage * pageSize + firstVisiblePositionInPage
+        }
     }
 
     private fun lastVisiblePosition(firstVisiblePosition: Int) =
@@ -98,8 +106,15 @@ class MeshLayoutManager(
         index: Int,
         pageSize: Int,
         itemWidth: Int
-    ) =
-        ((index / pageSize) * columnCount + (index % columnCount)) * itemWidth - horizontalScrollOffset
+    ): Int {
+        val left =
+            ((index / pageSize) * columnCount + (index % columnCount)) * itemWidth
+        return if (reversed) {
+            pageCount * width - itemWidth - left - horizontalScrollOffset
+        } else {
+            left - horizontalScrollOffset
+        }
+    }
 
     private fun calculateTopCoordinate(
         index: Int,
