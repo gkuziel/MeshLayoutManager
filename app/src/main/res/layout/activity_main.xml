@@ -154,10 +154,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Smooth scroll to:"
+        android:text="Scroll to:"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radio_group_layout_manager" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_smooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:checked="false"
+        android:text="smooth?"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_smooth_scroll_label"
+        app:switchPadding="4dp" />
 
     <Button
         android:id="@+id/btn_smooth_scroll_to_start"
@@ -168,7 +180,7 @@
         android:text="start"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_smooth_scroll_label" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_smooth" />
 
     <Button
         android:id="@+id/btn_smooth_scroll_to_end"
