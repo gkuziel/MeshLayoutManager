@@ -63,17 +63,15 @@ class MainActivity : AppCompatActivity() {
                 viewModel.onReverseLayoutClicked(isChecked)
             }
             btnSmoothScrollToStart.setOnClickListener {
-                recyclerviewTop.smoothScrollToPosition(0)
+                recyclerviewTop.scrollTo(0)
             }
             btnSmoothScrollToEnd.setOnClickListener {
-                recyclerviewTop.smoothScrollToPosition(
-                    recyclerviewTop.adapter?.itemCount?.let {
-                        it - 1
-                    } ?: 0
-                )
+                recyclerviewTop.scrollTo(recyclerviewTop.adapter?.itemCount?.let {
+                    it - 1
+                } ?: 0)
             }
             btnSmoothScrollToPosition.setOnClickListener {
-                recyclerviewTop.smoothScrollToPosition(
+                recyclerviewTop.scrollTo(
                     etScrollPosition.text.toString().toIntOrNull() ?: 0
                 )
             }
@@ -111,6 +109,7 @@ class MainActivity : AppCompatActivity() {
         layoutManager = when (viewState.layoutManagerType) {
             is LayoutManagerType.Mesh ->
                 MeshLayoutManager(
+                    this@MainActivity,
                     viewState.columnCount,
                     viewState.rowCount,
                     viewState.reversed
@@ -131,6 +130,14 @@ class MainActivity : AppCompatActivity() {
                     viewState.reversed
                 )
 
+        }
+    }
+
+    private fun RecyclerView.scrollTo(position: Int) {
+        if (binding.switchSmooth.isChecked) {
+            smoothScrollToPosition(position)
+        } else {
+            scrollToPosition(position)
         }
     }
 
