@@ -11,8 +11,17 @@ class MeshLayoutManager(
     private val rowCount: Int,
     private val reversed: Boolean,
 ) : RecyclerView.LayoutManager() {
+    private var horizontalScrollOffset: Int = -1
+        get() = synchronized(this) {
+            return if (field == -1) {
+                if (reversed) {
+                    maxScroll
+                } else {
+                    0
+                }
+            } else field
+        }
 
-    private var horizontalScrollOffset = 0
 
     private val pageCount
         get() = ceil(itemCount.toDouble() / (columnCount * rowCount)).toInt()
