@@ -5,8 +5,16 @@ import com.gkuziel.digiteq_assignment.utils.ColorUtil
 
 
 class Repository {
-    val items = MutableLiveData(
-        List(50) {
+    val itemsTop = MutableLiveData(
+        MutableList(50) {
+            ItemViewModel(
+                it,
+                ColorUtil.random()
+            )
+        }
+    )
+    val itemsBottom = MutableLiveData(
+        MutableList(50) {
             ItemViewModel(
                 it,
                 ColorUtil.random()

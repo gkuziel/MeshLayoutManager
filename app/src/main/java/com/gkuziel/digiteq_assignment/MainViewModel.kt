@@ -27,10 +27,14 @@ class MainViewModel internal constructor(
     val state: LiveData<MainViewState>
         get() = _state
 
-    private val _items = repository.items
+    private val _itemsTop = repository.itemsTop
+    private val _itemsBottom = repository.itemsBottom
 
-    val items: LiveData<List<ItemViewModel>>
-        get() = _items
+    val itemsTop: LiveData<MutableList<ItemViewModel>>
+        get() = _itemsTop
+
+    val itemsBottom: LiveData<MutableList<ItemViewModel>>
+        get() = _itemsBottom
 
     fun onReverseLayoutClicked(isReversed: Boolean) {
         _state.apply {

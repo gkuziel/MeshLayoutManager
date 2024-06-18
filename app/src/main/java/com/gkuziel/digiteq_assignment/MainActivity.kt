@@ -20,7 +20,7 @@ import com.gkuziel.digiteq_assignment.ui.SnapHelperType
 class MainActivity : AppCompatActivity() {
 
     private val itemAdapterTop by lazy { ItemAdapter() }
-    //    private val itemAdapterBottom by lazy { ItemAdapter() }
+    private val itemAdapterBottom by lazy { ItemAdapter() }
 
     private val linearSnapHelper by lazy { LinearSnapHelper() }
     private val pagerSnapHelper by lazy { PagerSnapHelper() }
@@ -38,15 +38,19 @@ class MainActivity : AppCompatActivity() {
         viewModel.state.observe(this) {
             setState(it)
         }
-        viewModel.items.observe(this) {
+        viewModel.itemsTop.observe(this) {
             itemAdapterTop.setItems(it)
+        }
+        viewModel.itemsBottom.observe(this) {
+            itemAdapterBottom.setItems(it)
         }
     }
 
     private fun initLayout() {
         with(binding) {
             recyclerviewTop.adapter = itemAdapterTop
-//            recyclerviewBottom.adapter = itemAdapterBottom
+            recyclerviewBottom.adapter = itemAdapterBottom
+
             radioGroupLayoutManager.setOnCheckedChangeListener { group, checkedId ->
                 viewModel.onLayoutManagerChecked(group.indexOfChild(findViewById(checkedId)))
             }
@@ -92,37 +96,36 @@ class MainActivity : AppCompatActivity() {
                 true
             (radioGroupSnapHelper.getChildAt(viewState.snapHelperType.id) as? RadioButton)?.isChecked =
                 true
+            recyclerviewTop.setLayoutManager(viewState)
+            recyclerviewBottom.setLayoutManager(viewState)
+            setSnapHelpers(viewState)
         }
-        setLayoutManager(viewState)
-        setSnapHelpers(viewState)
     }
 
-    private fun setLayoutManager(viewState: MainViewState) {
-        with(binding) {
-            recyclerviewTop.layoutManager = when (viewState.layoutManagerType) {
-                is LayoutManagerType.Mesh ->
-                    MeshLayoutManager(
-                        viewState.columnCount,
-                        viewState.rowCount,
-                        viewState.reversed
-                    )
+    private fun RecyclerView.setLayoutManager(viewState: MainViewState) {
+        layoutManager = when (viewState.layoutManagerType) {
+            is LayoutManagerType.Mesh ->
+                MeshLayoutManager(
+                    viewState.columnCount,
+                    viewState.rowCount,
+                    viewState.reversed
+                )
 
-                is LayoutManagerType.Linear ->
-                    LinearLayoutManager(
-                        this@MainActivity,
-                        RecyclerView.HORIZONTAL,
-                        viewState.reversed
-                    )
+            is LayoutManagerType.Linear ->
+                LinearLayoutManager(
+                    this@MainActivity,
+                    RecyclerView.HORIZONTAL,
+                    viewState.reversed
+                )
 
-                is LayoutManagerType.Grid ->
-                    GridLayoutManager(
-                        this@MainActivity,
-                        2,
-                        RecyclerView.HORIZONTAL,
-                        viewState.reversed
-                    )
+            is LayoutManagerType.Grid ->
+                GridLayoutManager(
+                    this@MainActivity,
+                    2,
+                    RecyclerView.HORIZONTAL,
+                    viewState.reversed
+                )
 
-            }
         }
     }
 
