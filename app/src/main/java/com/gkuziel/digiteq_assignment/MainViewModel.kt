@@ -17,7 +17,7 @@ class MainViewModel internal constructor(
         false,
         LayoutManagerType.Mesh(),
         SnapHelperType.None(),
-        40,
+        30,
         5,
         2
     )
