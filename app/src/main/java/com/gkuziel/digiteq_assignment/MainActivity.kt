@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         layoutManager = when (viewState.layoutManagerType) {
             is LayoutManagerType.Mesh ->
                 MeshLayoutManager(
+                    this@MainActivity,
                     viewState.columnCount,
                     viewState.rowCount,
                     viewState.reversed

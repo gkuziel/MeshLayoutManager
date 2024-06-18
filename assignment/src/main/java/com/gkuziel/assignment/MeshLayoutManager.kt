@@ -1,5 +1,8 @@
 package com.gkuziel.assignment
 
+import android.content.Context
+import android.graphics.PointF
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import kotlin.math.ceil
@@ -7,10 +10,12 @@ import kotlin.math.max
 import kotlin.math.min
 
 class MeshLayoutManager(
+    private val context: Context,
     private val columnCount: Int,
     private val rowCount: Int,
     private val reversed: Boolean,
 ) : RecyclerView.LayoutManager() {
+
     private var horizontalScrollOffset: Int = -1
         get() = synchronized(this) {
             return if (field == -1) {
@@ -38,9 +43,27 @@ class MeshLayoutManager(
         RecyclerView.LayoutParams.WRAP_CONTENT
     )
 
+    override fun smoothScrollToPosition(
+        recyclerView: RecyclerView?,
+        state: RecyclerView.State?,
+        position: Int
+    ) {
+        val smoothScroller = object : LinearSmoothScroller(context) {
+            override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
+                return getChildAt(0)?.let {
+                    val firstChildPosition = getPosition(it)
+                    val direction = if (targetPosition < firstChildPosition != reversed) -1 else 1
+                    PointF(direction.toFloat(), 0f)
+                }
+            }
+        }
+        smoothScroller.targetPosition = position
+        startSmoothScroll(smoothScroller)
+    }
+
     override fun scrollToPosition(position: Int) {
         val lastPosition = horizontalScrollOffset
-        val destinationPosition = calculateLeftCoordinate(position) + horizontalScrollOffset
+        val destinationPosition = calculateLeftCoordinate(position) + lastPosition
 
         horizontalScrollOffset = if (lastPosition > destinationPosition) {
             destinationPosition.limited(0, maxScroll)
@@ -50,7 +73,6 @@ class MeshLayoutManager(
         }
         requestLayout()
     }
-
 
     override fun canScrollVertically() = false
 
