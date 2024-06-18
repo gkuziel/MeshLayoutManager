@@ -13,7 +13,10 @@ class MeshLayoutManager(
 ) : RecyclerView.LayoutManager() {
 
     private var horizontalScrollOffset = 0
-    private val pageCount by lazy { ceil(itemCount.toDouble() / (columnCount * rowCount)).toInt() }
+
+    private val pageCount
+        get() = ceil(itemCount.toDouble() / (columnCount * rowCount)).toInt()
+
     private val pageSize by lazy { columnCount * rowCount }
     private val itemWidth by lazy { width / columnCount }
     private val itemHeight by lazy { height / rowCount }
@@ -121,4 +124,5 @@ class MeshLayoutManager(
         pageSize: Int,
         itemHeight: Int
     ) = ((index % pageSize) / columnCount) * itemHeight
+
 }
