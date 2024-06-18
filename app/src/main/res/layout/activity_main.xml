@@ -110,11 +110,11 @@
             android:textSize="20sp" />
 
         <RadioButton
-            android:id="@+id/radio_button_custom_sh"
+            android:id="@+id/radio_button_mesh_sh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Custom"
+            android:text="Mesh"
             android:textAlignment="center"
             android:textSize="20sp" />
 
