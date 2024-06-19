@@ -1,6 +1,8 @@
 package com.gkuziel.digiteq_assignment
 
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.RadioButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -84,8 +86,15 @@ class MainActivity : AppCompatActivity() {
                     readColumnCount(),
                     readRowCount()
                 )
+                hideKeyboard()
             }
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = currentFocus ?: View(this)
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun readColumnCount() = binding.etMeshColumnNumbers.text.toString().toIntOrNull() ?: 5
