@@ -10,7 +10,8 @@ import kotlin.math.abs
 
 class MeshSnapHelper(
     private val columnCount: Int,
-    private val rowCount: Int
+    private val rowCount: Int,
+    var isReversed: Boolean = false
 ) : SnapHelper() {
 
     private val pageSize by lazy { columnCount * rowCount }
@@ -20,13 +21,13 @@ class MeshSnapHelper(
         layoutManager: RecyclerView.LayoutManager,
         targetView: View
     ): IntArray {
-        val dx = distanceToStart(targetView, getHorizontalHelper(layoutManager))
+        val dx = distanceToParentEdge(layoutManager, targetView, getHorizontalHelper(layoutManager))
         return intArrayOf(dx, 0)
     }
 
     override fun findSnapView(
         layoutManager: RecyclerView.LayoutManager
-    ) = findStartView(layoutManager, getHorizontalHelper(layoutManager))
+    ) = findPageFirstView(layoutManager, getHorizontalHelper(layoutManager))
 
     override fun findTargetSnapPosition(
         layoutManager: RecyclerView.LayoutManager,
@@ -38,7 +39,7 @@ class MeshSnapHelper(
         if (position == RecyclerView.NO_POSITION) {
             return RecyclerView.NO_POSITION
         }
-        val targetPosition = if (velocityX > 0) {
+        val targetPosition = if (isPositionIncreasingWithScroll(velocityX)) {
             position + pageSize
         } else {
             position - pageSize
@@ -46,28 +47,38 @@ class MeshSnapHelper(
         return targetPosition.limited(0, layoutManager.itemCount - 1)
     }
 
-    private fun distanceToStart(
+    private fun isPositionIncreasingWithScroll(
+        velocityX: Int
+    ) = if (isReversed) velocityX < 0 else velocityX > 0
+
+
+    private fun distanceToParentEdge(
+        layoutManager: RecyclerView.LayoutManager,
         view: View,
         helper: OrientationHelper
     ): Int {
-        val childStart = helper.getDecoratedStart(view)
-        val parentStart = helper.startAfterPadding
-        return childStart - parentStart
+        val distance = if (isReversed) {
+            helper.getDecoratedEnd(view) - layoutManager.width
+        } else {
+            helper.getDecoratedStart(view) - helper.startAfterPadding
+        }
+        return distance
     }
 
-    private fun findStartView(
+    private fun findPageFirstView(
         layoutManager: RecyclerView.LayoutManager,
         helper: OrientationHelper
     ): View? {
         var closestChild: View? = null
         var absClosest = Int.MAX_VALUE
+
         for (i in 0 until layoutManager.childCount) {
             val child = layoutManager.getChildAt(i) ?: continue
 
             if (!isFirstItemInPage(layoutManager, child)) {
                 continue
             }
-            val absDistance = abs(distanceToStart(child, helper))
+            val absDistance = abs(distanceToParentEdge(layoutManager, child, helper))
             if (absDistance < absClosest) {
                 absClosest = absDistance
                 closestChild = child

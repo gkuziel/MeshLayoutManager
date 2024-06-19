@@ -145,8 +145,10 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             detachSnapHelpers()
             when (viewState.snapHelperType) {
-                is SnapHelperType.Mesh ->
+                is SnapHelperType.Mesh -> {
+                    meshSnapHelper.isReversed = viewState.reversed
                     meshSnapHelper.attachToRecyclerView(recyclerviewTop)
+                }
 
                 is SnapHelperType.Linear ->
                     linearSnapHelper.attachToRecyclerView(recyclerviewTop)
