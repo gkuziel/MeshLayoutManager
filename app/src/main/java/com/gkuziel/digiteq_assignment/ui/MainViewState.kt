@@ -5,7 +5,7 @@ data class MainViewState(
     val reversed: Boolean,
     val layoutManagerType: LayoutManagerType,
     val snapHelperType: SnapHelperType,
-    val position: Int,
+    var position: Int,
     val columnCount: Int,
     val rowCount: Int
 )

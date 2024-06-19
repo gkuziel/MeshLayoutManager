@@ -11,7 +11,7 @@ import kotlin.math.abs
 class MeshSnapHelper(
     private val columnCount: Int,
     private val rowCount: Int,
-    var isReversed: Boolean = false
+    private var isReversed: Boolean = false
 ) : SnapHelper() {
 
     private val pageSize by lazy { columnCount * rowCount }

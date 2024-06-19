@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val itemAdapterTop by lazy { ItemAdapter() }
     private val itemAdapterBottom by lazy { ItemAdapter() }
 
-    private val meshSnapHelper by lazy { MeshSnapHelper(readColumnCount(), readRowCount()) }
+    private var meshSnapHelper: MeshSnapHelper? = null
     private val linearSnapHelper by lazy { LinearSnapHelper() }
     private val pagerSnapHelper by lazy { PagerSnapHelper() }
 
@@ -62,18 +62,18 @@ class MainActivity : AppCompatActivity() {
             switchReversed.setOnCheckedChangeListener { buttonView, isChecked ->
                 viewModel.onReverseLayoutClicked(isChecked)
             }
-            btnSmoothScrollToStart.setOnClickListener {
+            btnScrollToStart.setOnClickListener {
                 recyclerviewTop.scrollTo(0)
             }
-            btnSmoothScrollToEnd.setOnClickListener {
+            btnScrollToEnd.setOnClickListener {
                 recyclerviewTop.scrollTo(recyclerviewTop.adapter?.itemCount?.let {
                     it - 1
                 } ?: 0)
             }
-            btnSmoothScrollToPosition.setOnClickListener {
-                recyclerviewTop.scrollTo(
-                    etScrollPosition.text.toString().toIntOrNull() ?: 0
-                )
+            btnScrollToPosition.setOnClickListener {
+                val scrollPosition = etScrollPosition.text.toString().toIntOrNull() ?: 0
+                recyclerviewTop.scrollTo(scrollPosition)
+                viewModel.onScrollToChanged(scrollPosition)
             }
 
             btnAnimateItems.setOnClickListener {
@@ -125,11 +125,10 @@ class MainActivity : AppCompatActivity() {
             is LayoutManagerType.Grid ->
                 GridLayoutManager(
                     this@MainActivity,
-                    2,
+                    viewState.rowCount,
                     RecyclerView.HORIZONTAL,
                     viewState.reversed
                 )
-
         }
     }
 
@@ -146,8 +145,12 @@ class MainActivity : AppCompatActivity() {
             detachSnapHelpers()
             when (viewState.snapHelperType) {
                 is SnapHelperType.Mesh -> {
-                    meshSnapHelper.isReversed = viewState.reversed
-                    meshSnapHelper.attachToRecyclerView(recyclerviewTop)
+                    meshSnapHelper = MeshSnapHelper(
+                        readColumnCount(),
+                        readRowCount(),
+                        viewState.reversed
+                    )
+                    meshSnapHelper?.attachToRecyclerView(recyclerviewTop)
                 }
 
                 is SnapHelperType.Linear ->
@@ -156,7 +159,9 @@ class MainActivity : AppCompatActivity() {
                 is SnapHelperType.Pager ->
                     pagerSnapHelper.attachToRecyclerView(recyclerviewTop)
 
-                is SnapHelperType.None -> {}
+                is SnapHelperType.None -> {
+                    // already detached
+                }
 
             }
         }
@@ -165,6 +170,6 @@ class MainActivity : AppCompatActivity() {
     private fun detachSnapHelpers() {
         linearSnapHelper.attachToRecyclerView(null)
         pagerSnapHelper.attachToRecyclerView(null)
-        meshSnapHelper.attachToRecyclerView(null)
+        meshSnapHelper?.attachToRecyclerView(null)
     }
 }

@@ -67,6 +67,12 @@ class MainViewModel internal constructor(
             }
         }
     }
+
+    fun onScrollToChanged(position: Int) {
+        _state.apply {
+            value?.position = position
+        }
+    }
 }
 
 

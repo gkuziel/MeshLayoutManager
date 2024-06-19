@@ -4,7 +4,7 @@ package com.gkuziel.digiteq_assignment.ui
 sealed class LayoutManagerType(val id: Int) {
     class Mesh : LayoutManagerType(1)
     class Linear : LayoutManagerType(2)
-    class Grid : LayoutManagerType(3)
+    class Grid : LayoutManagerType(4)
 
     companion object {
         fun getManager(id: Int): LayoutManagerType {
