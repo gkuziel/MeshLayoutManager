@@ -63,6 +63,7 @@ info: Each RecyclerView item has 2 TextViews:
 
 # TODO:
 
-1. Test Accessibility support.
-6. Addition testing.
-7. Optimize binding algorithm while scrolling.
+1. Improve item height handling 
+2. Test Accessibility support
+3. Addition testing
+4. Optimize binding algorithm while scrolling
