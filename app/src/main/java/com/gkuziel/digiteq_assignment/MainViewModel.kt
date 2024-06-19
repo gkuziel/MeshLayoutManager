@@ -16,7 +16,7 @@ class MainViewModel internal constructor(
     private val initialViewState = MainViewState(
         false,
         LayoutManagerType.Mesh(),
-        SnapHelperType.None(),
+        SnapHelperType.Mesh(),
         30,
         5,
         2

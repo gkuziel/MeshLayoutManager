@@ -5,8 +5,8 @@ import android.graphics.PointF
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
+import com.gkuziel.assignment.utils.limited
 import kotlin.math.ceil
-import kotlin.math.max
 import kotlin.math.min
 
 class MeshLayoutManager(
@@ -14,7 +14,8 @@ class MeshLayoutManager(
     private val columnCount: Int,
     private val rowCount: Int,
     private val reversed: Boolean,
-) : RecyclerView.LayoutManager() {
+) : RecyclerView.LayoutManager(), RecyclerView.SmoothScroller.ScrollVectorProvider {
+
 
     private var horizontalScrollOffset: Int = -1
         get() = synchronized(this) {
@@ -49,16 +50,20 @@ class MeshLayoutManager(
         position: Int
     ) {
         val smoothScroller = object : LinearSmoothScroller(context) {
-            override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
-                return getChildAt(0)?.let {
-                    val firstChildPosition = getPosition(it)
-                    val direction = if (targetPosition < firstChildPosition != reversed) -1 else 1
-                    PointF(direction.toFloat(), 0f)
-                }
+            override fun computeScrollVectorForPosition(targetPosition: Int): PointF {
+                return this@MeshLayoutManager.computeScrollVectorForPosition(targetPosition)!!
             }
         }
         smoothScroller.targetPosition = position
         startSmoothScroll(smoothScroller)
+    }
+
+    override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
+        return getChildAt(0)?.let {
+            val firstChildPosition = getPosition(it)
+            val direction = if (targetPosition < firstChildPosition != reversed) -1 else 1
+            PointF(direction.toFloat(), 0f)
+        }
     }
 
     override fun scrollToPosition(position: Int) {
@@ -86,7 +91,7 @@ class MeshLayoutManager(
         val minScroll = 0
         horizontalScrollOffset = (dx + horizontalScrollOffset).limited(minScroll, maxScroll)
         fill(recycler)
-        return if (isScrolledToEdge(maxScroll)) {
+        return if (isScrolledToEdge()) {
             0
         } else {
             dx
@@ -137,7 +142,6 @@ class MeshLayoutManager(
             val firstVisiblePositionInPage =
                 (reverseOffset - horizontalScrollOffset) % width / itemWidth
             firstVisiblePage * pageSize + firstVisiblePositionInPage
-
         } else {
             val firstVisiblePage = horizontalScrollOffset / width
             val firstVisiblePositionInPage = horizontalScrollOffset % width / itemWidth
@@ -161,8 +165,7 @@ class MeshLayoutManager(
 
     private fun calculateTopCoordinate(index: Int) = ((index % pageSize) / columnCount) * itemHeight
 
-    private fun isScrolledToEdge(maxPosition: Int) =
-        horizontalScrollOffset == 0 || horizontalScrollOffset == maxPosition
+    private fun isScrolledToEdge() =
+        horizontalScrollOffset == 0 || horizontalScrollOffset == maxScroll
 
-    private fun Int.limited(min: Int, max: Int) = max(min, min(max, this))
 }

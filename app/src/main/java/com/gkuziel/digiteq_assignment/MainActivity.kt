@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.gkuziel.assignment.MeshLayoutManager
+import com.gkuziel.assignment.MeshSnapHelper
 import com.gkuziel.digiteq_assignment.adapter.ItemAdapter
 import com.gkuziel.digiteq_assignment.databinding.ActivityMainBinding
 import com.gkuziel.digiteq_assignment.ui.LayoutManagerType
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val itemAdapterTop by lazy { ItemAdapter() }
     private val itemAdapterBottom by lazy { ItemAdapter() }
 
+    private val meshSnapHelper by lazy { MeshSnapHelper(readColumnCount(), readRowCount()) }
     private val linearSnapHelper by lazy { LinearSnapHelper() }
     private val pagerSnapHelper by lazy { PagerSnapHelper() }
 
@@ -79,12 +81,15 @@ class MainActivity : AppCompatActivity() {
             }
             btnSetMeshDimension.setOnClickListener {
                 viewModel.onDimensionChanged(
-                    etMeshColumnNumbers.text.toString().toIntOrNull() ?: 5,
-                    etMeshRowNumbers.text.toString().toIntOrNull() ?: 2
+                    readColumnCount(),
+                    readRowCount()
                 )
             }
         }
     }
+
+    private fun readColumnCount() = binding.etMeshColumnNumbers.text.toString().toIntOrNull() ?: 5
+    private fun readRowCount() = binding.etMeshRowNumbers.text.toString().toIntOrNull() ?: 2
 
     private fun setState(viewState: MainViewState) {
         with(binding) {
@@ -140,8 +145,10 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             detachSnapHelpers()
             when (viewState.snapHelperType) {
-                is SnapHelperType.Custom ->
-                    linearSnapHelper.attachToRecyclerView(recyclerviewTop)
+                is SnapHelperType.Mesh -> {
+                    meshSnapHelper.isReversed = viewState.reversed
+                    meshSnapHelper.attachToRecyclerView(recyclerviewTop)
+                }
 
                 is SnapHelperType.Linear ->
                     linearSnapHelper.attachToRecyclerView(recyclerviewTop)
@@ -158,5 +165,6 @@ class MainActivity : AppCompatActivity() {
     private fun detachSnapHelpers() {
         linearSnapHelper.attachToRecyclerView(null)
         pagerSnapHelper.attachToRecyclerView(null)
+        meshSnapHelper.attachToRecyclerView(null)
     }
 }
