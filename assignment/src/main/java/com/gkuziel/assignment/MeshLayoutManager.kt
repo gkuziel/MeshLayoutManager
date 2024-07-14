@@ -49,13 +49,15 @@ class MeshLayoutManager(
         state: RecyclerView.State?,
         position: Int
     ) {
-        val smoothScroller = object : LinearSmoothScroller(context) {
-            override fun computeScrollVectorForPosition(targetPosition: Int): PointF {
-                return this@MeshLayoutManager.computeScrollVectorForPosition(targetPosition)!!
+        if (itemCount > 0) {
+            val smoothScroller = object : LinearSmoothScroller(context) {
+                override fun computeScrollVectorForPosition(targetPosition: Int): PointF {
+                    return this@MeshLayoutManager.computeScrollVectorForPosition(targetPosition)!!
+                }
             }
+            smoothScroller.targetPosition = position
+            startSmoothScroll(smoothScroller)
         }
-        smoothScroller.targetPosition = position
-        startSmoothScroll(smoothScroller)
     }
 
     override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
