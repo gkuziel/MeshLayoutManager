@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment.data
+package com.gkuziel.mesh_assignment.data
 
 data class ItemViewModel(
     val value: Int,

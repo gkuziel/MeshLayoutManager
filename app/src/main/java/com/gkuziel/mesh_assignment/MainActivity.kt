@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment
+package com.gkuziel.mesh_assignment
 
 import android.os.Bundle
 import android.view.View
@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.gkuziel.assignment.MeshLayoutManager
 import com.gkuziel.assignment.MeshSnapHelper
-import com.gkuziel.digiteq_assignment.adapter.ItemAdapter
-import com.gkuziel.digiteq_assignment.databinding.ActivityMainBinding
-import com.gkuziel.digiteq_assignment.ui.LayoutManagerType
-import com.gkuziel.digiteq_assignment.ui.MainViewState
-import com.gkuziel.digiteq_assignment.ui.SnapHelperType
+import com.gkuziel.mesh_assignment.adapter.ItemAdapter
+import com.gkuziel.mesh_assignment.databinding.ActivityMainBinding
+import com.gkuziel.mesh_assignment.ui.LayoutManagerType
+import com.gkuziel.mesh_assignment.ui.MainViewState
+import com.gkuziel.mesh_assignment.ui.SnapHelperType
 
 
 class MainActivity : AppCompatActivity() {

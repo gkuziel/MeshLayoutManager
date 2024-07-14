@@ -1,13 +1,13 @@
-package com.gkuziel.digiteq_assignment
+package com.gkuziel.mesh_assignment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gkuziel.digiteq_assignment.data.Repository
-import com.gkuziel.digiteq_assignment.data.ItemViewModel
-import com.gkuziel.digiteq_assignment.ui.LayoutManagerType
-import com.gkuziel.digiteq_assignment.ui.SnapHelperType
-import com.gkuziel.digiteq_assignment.ui.MainViewState
+import com.gkuziel.mesh_assignment.data.Repository
+import com.gkuziel.mesh_assignment.data.ItemViewModel
+import com.gkuziel.mesh_assignment.ui.LayoutManagerType
+import com.gkuziel.mesh_assignment.ui.SnapHelperType
+import com.gkuziel.mesh_assignment.ui.MainViewState
 
 class MainViewModel internal constructor(
     private val repository: Repository = Repository()

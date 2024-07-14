@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment.adapter
+package com.gkuziel.mesh_assignment.adapter
 
 import android.view.DragEvent
 import android.view.View

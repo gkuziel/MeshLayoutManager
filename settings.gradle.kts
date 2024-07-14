@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Digiteq-Assignment"
+rootProject.name = "Mesh-Assignment"
 include(":app")
 include(":assignment")

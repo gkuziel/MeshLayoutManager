@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment.ui
+package com.gkuziel.mesh_assignment.ui
 
 
 sealed class SnapHelperType(val id: Int) {

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.gkuziel.digiteq_assignment"
+    namespace = "com.gkuziel.mesh_assignment"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.gkuziel.digiteq_assignment"
+        applicationId = "com.gkuziel.mesh_assignment"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

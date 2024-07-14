@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment
+package com.gkuziel.mesh_assignment
 
 import org.junit.Test
 

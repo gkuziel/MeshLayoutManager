@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment
+package com.gkuziel.mesh_assignment
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.gkuziel.digiteq_assignment", appContext.packageName)
+        assertEquals("com.gkuziel.mesh_assignment", appContext.packageName)
     }
 }

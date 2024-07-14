@@ -1,4 +1,4 @@
-package com.gkuziel.digiteq_assignment.utils
+package com.gkuziel.mesh_assignment.utils
 
 import android.graphics.Color
 

@@ -1,7 +1,7 @@
-package com.gkuziel.digiteq_assignment.data
+package com.gkuziel.mesh_assignment.data
 
 import androidx.lifecycle.MutableLiveData
-import com.gkuziel.digiteq_assignment.utils.ColorUtil
+import com.gkuziel.mesh_assignment.utils.ColorUtil
 
 
 class Repository {

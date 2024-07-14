@@ -1,12 +1,12 @@
-package com.gkuziel.digiteq_assignment.adapter
+package com.gkuziel.mesh_assignment.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.gkuziel.digiteq_assignment.R
-import com.gkuziel.digiteq_assignment.data.ItemViewModel
-import com.gkuziel.digiteq_assignment.databinding.ItemNumberBinding
+import com.gkuziel.mesh_assignment.R
+import com.gkuziel.mesh_assignment.data.ItemViewModel
+import com.gkuziel.mesh_assignment.databinding.ItemNumberBinding
 
 
 class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
