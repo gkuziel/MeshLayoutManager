@@ -1,7 +1,22 @@
-# Digiteq-Assignment
+# Assignment requirements
 
-A custom LayoutManager and SnapHelper with PagerView feeling, supporting scroll, drag & drop, reversed layout and item animations.
-Items in each page are drawn top to the bottom - raw by raw.
+Custom LayoutManager and SnapHelper:
+
+- Populates items in a grid horizontally, like:
+
+---
+    item_1  item_2  item_3  item_4  item_5  |  item_11  item_12  item_13  item_14  item_15
+    item_6  item_7  item_8  item_9  item_10 |  item_16  item_17  ...
+---
+- number of rows and columns are configurable
+- right to left support
+- supports RecyclerView item animations
+- supports smooth scroll
+- supports drag & drop (2 RecyclerViews)
+- displays and scroll always the full page, where the page contains `[number of columns] x [number of rows]` items
+- n-th page start with `[number of columns] x [number of rows] * n + 1` item
+
+# Solution
 
 The project consists of 2 modules:
 - assignment library 
@@ -65,5 +80,5 @@ info: Each RecyclerView item has 2 TextViews:
 
 1. Improve item height handling 
 2. Test Accessibility support
-3. Addition testing
+3. Additional testing
 4. Optimize binding algorithm while scrolling
