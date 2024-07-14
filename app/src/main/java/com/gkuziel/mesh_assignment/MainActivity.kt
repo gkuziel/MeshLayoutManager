@@ -109,7 +109,11 @@ class MainActivity : AppCompatActivity() {
             (radioGroupSnapHelper.getChildAt(viewState.snapHelperType.id) as? RadioButton)?.isChecked =
                 true
             recyclerviewTop.setLayoutManager(viewState)
-            recyclerviewBottom.setLayoutManager(viewState)
+            recyclerviewBottom.layoutManager = LinearLayoutManager(
+                this@MainActivity,
+                RecyclerView.HORIZONTAL,
+                false
+            )
             setSnapHelpers(viewState)
         }
     }
