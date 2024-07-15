@@ -46,6 +46,7 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
             root.tag = position
             root.setOnLongClickListener { view ->
                 val shadowBuilder = View.DragShadowBuilder(view)
+                view.alpha = 0.1f
                 view.startDragAndDrop(null, shadowBuilder, view, 0)
             }
             root.setDragListener()
