@@ -73,7 +73,7 @@ info: Each RecyclerView item has 2 TextViews:
 - green displays position in the dataset
 
 
-![alt tag](https://github.com/gkuziel/Digiteq-Assignment/assets/5773920/03ac4001-18e6-4a0b-b41d-9386857a3261)
+![alt tag](https://github.com/user-attachments/assets/902efbe4-3f46-4290-add1-d0b2a1999bda)
 
 
 # TODO:
